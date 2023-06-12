@@ -39,12 +39,18 @@ export default function Asset(props: any) {
     }
   }
   return (
-    <div className="grid grid-cols-4 gap-4 h-1">
+    <div>
+      <h1 className="text-4xl font-bold text-center mt-20">Your NFTs</h1>
+      <div className="flex justify-center">
+        <div className="divider w-1/2"></div>
+      </div>
+      <div className="grid grid-cols-4 gap-4 justify-items-center mt-20">
       {nfts.map((nft, index) => {
         return (
           <NFT imageURL={nft} key={index}/>
         )
       })}
+      </div>
     </div>
   )
 }
