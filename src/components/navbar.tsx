@@ -1,5 +1,5 @@
-'use client'
 import { ConnectKitButton } from "connectkit"
+import { useNetwork } from "wagmi"
 
 export default function Navbar() {
   return (

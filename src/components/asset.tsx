@@ -4,10 +4,30 @@ import NFT from "./nft";
 
 export default function Asset(props: any) {
   // Optional Config object, but defaults to demo api-key and eth-mainnet.
-  const settings = {
-  apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Replace with your Alchemy API Key.
-  network: Network.ETH_MAINNET, // Replace with your network.
-  };
+  function chooseNetwork() {
+    if (props.network === "Ethereum") {
+      const settings = {
+        apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Alchemy API Key.
+        network: Network.ETH_MAINNET, // network.
+      };
+      return settings;
+    }
+    else if (props.network === "Sepolia") {
+      const settings = {
+        apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Alchemy API Key.
+        network: Network.ETH_SEPOLIA, // network.
+      };
+      return settings;
+    }
+    else if (props.network === "Goerli") {
+      const settings = {
+        apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Alchemy API Key.
+        network: Network.ETH_GOERLI, // network.
+      };
+      return settings;
+    }
+  }
+  const settings = chooseNetwork();
   const alchemy = new Alchemy(settings);
   const ownerAddr = props.ownerAddr;
 
@@ -40,11 +60,11 @@ export default function Asset(props: any) {
   }
   return (
     <div>
-      <h1 className="text-4xl font-bold text-center mt-20">Your NFTs</h1>
+      <h1 className="text-4xl font-bold text-center mt-20">My NFTs</h1>
       <div className="flex justify-center">
         <div className="divider w-1/2"></div>
       </div>
-      <div className="grid grid-cols-4 gap-4 justify-items-center mt-20">
+      <div className="grid grid-cols-4 gap-4 justify-items-center mt-3.5 mx-3">
       {nfts.map((nft, index) => {
         return (
           <NFT imageURL={nft} key={index}/>
