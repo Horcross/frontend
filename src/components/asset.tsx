@@ -5,9 +5,12 @@ import NFT from "./nft";
 
 export default function Asset(props: any) {
   // Optional Config object, but defaults to demo api-key and eth-mainnet.
-  const { address } = useAccount()
   const { chain } = useNetwork()
-  const [nfts , setNfts] = useState<string[]>([])
+  const [nfts , setNfts] = useState([{
+    contractAddress: "",
+    tokenId: "",
+    imageURL: ""
+  }])
 
   useEffect(() => {
     getNFTs();
@@ -36,27 +39,27 @@ export default function Asset(props: any) {
       return settings;
     }
   }
+
   const settings = chooseNetwork();
   const alchemy = new Alchemy(settings);
   const ownerAddr = props.ownerAddr;
 
   async function getNFTs() {
     const nftsForOwner = await alchemy.nft.getNftsForOwner(ownerAddr);
-    console.log("number of NFTs found:", nftsForOwner.totalCount);
-    console.log("...");
-    const nfts : string[] = [];
+    const nfts = [];
 
     // Print contract address and tokenId for each NFT:
     for (const nft of nftsForOwner.ownedNfts) {
-      console.log("===");
-      console.log("contract address:", nft.contract.address);
-      console.log("token ID:", nft.tokenId);
       const response = await alchemy.nft.getNftMetadata(
         nft.contract.address,
         nft.tokenId
       );
-      if (response?.rawMetadata?.image) {
-        nfts.push(response.rawMetadata.image);  
+      if (response?.rawMetadata?.image && response?.contract?.address && response?.tokenId) {
+        nfts.push({
+          contractAddress: response.contract.address,
+          tokenId: response.tokenId,
+          imageURL: response.rawMetadata.image
+        })
       }
     }
     setNfts(nfts);
@@ -67,6 +70,7 @@ export default function Asset(props: any) {
     const convertedUrl = `https://ipfs.io/ipfs/${ipfsHash}`;
     return convertedUrl;
   }
+
   return (
     <div className="mb-8">
       <h1 className="text-4xl font-bold text-center mt-10">My NFTs</h1>
@@ -74,17 +78,17 @@ export default function Asset(props: any) {
         <div className="divider w-1/2"></div>
       </div>
       <div className="grid grid-cols-4 gap-4 justify-items-center mt-3.5 mx-3">
-      {nfts.map((nft, index) => {
-        if (nft.startsWith("ipfs://")) {
-          const nftUrl = convertToHttpsIpfsUrl(nft);
+        {nfts.map((nft, index) => {
+          if (nft.imageURL.startsWith("ipfs")) {
+            const nftUrl = convertToHttpsIpfsUrl(nft.imageURL);
+            return (
+              <NFT imageURL={nftUrl} key={index} contractAddress={nft.contractAddress} tokenId={nft.tokenId} />  
+            )
+          }
           return (
-            <NFT imageURL={nftUrl} key={index}/>  
+            <NFT imageURL={nft.imageURL} key={index} contractAddress={nft.contractAddress} tokenId={nft.tokenId} />
           )
-        }
-        return (
-          <NFT imageURL={nft} key={index}/>
-        )
-      })}
+        })}
       </div>
     </div>
   )

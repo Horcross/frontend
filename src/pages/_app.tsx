@@ -1,24 +1,18 @@
-//'use client';
-import { ConnectKitProvider, ConnectKitButton } from 'connectkit'
+import { ConnectKitProvider } from 'connectkit'
 import Navbar from '../components/navbar'
-import { WagmiConfig, useAccount, useNetwork } from 'wagmi'
-import Asset from '../components/asset'
+import { WagmiConfig } from 'wagmi'
 import Footer from '../components/footer'
 import '../styles/globals.css'
 import { client } from '../wagmi'
+import { AppProps } from 'next/app'
 
-function App() {
-  const { isConnected, address } = useAccount()
-  const { chain } = useNetwork()
-  // console.log(chain?.network)
-  // console.log(chains)
-  // console.log(address)
+function App({Component, pageProps}: AppProps) {
   return (
       <WagmiConfig client={client}>
         <ConnectKitProvider>
           <div className='min-h-screen flex flex-col'>
             <Navbar />
-            {isConnected && <Asset ownerAddr={address} />}
+              <Component { ...pageProps}></Component>
             <Footer/>
           </div>
         </ConnectKitProvider>
