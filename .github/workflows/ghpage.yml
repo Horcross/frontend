@@ -3,7 +3,7 @@ name: Frontend deploy
 on: 
   push:
     branches:
-      - frontend # The branch the action should deploy from.
+      - main # The branch the action should deploy from.
 jobs:
   build:
     runs-on: ubuntu-latest

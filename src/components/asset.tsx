@@ -45,18 +45,24 @@ export default function Asset(props: any) {
 
     // Print contract address and tokenId for each NFT:
     for (const nft of nftsForOwner.ownedNfts) {
-    console.log("===");
-    console.log("contract address:", nft.contract.address);
-    console.log("token ID:", nft.tokenId);
-    const response = await alchemy.nft.getNftMetadata(
-      nft.contract.address,
-      nft.tokenId
-    );
-    if (response?.rawMetadata?.image) {
-      nfts.push(response.rawMetadata.image);  
+      console.log("===");
+      console.log("contract address:", nft.contract.address);
+      console.log("token ID:", nft.tokenId);
+      const response = await alchemy.nft.getNftMetadata(
+        nft.contract.address,
+        nft.tokenId
+      );
+      if (response?.rawMetadata?.image) {
+        nfts.push(response.rawMetadata.image);  
+      }
     }
     setNfts(nfts);
-    }
+  }
+
+  function convertToHttpsIpfsUrl(ipfsUrl: string): string {
+    const ipfsHash = ipfsUrl.replace("ipfs://", "");
+    const convertedUrl = `https://ipfs.io/ipfs/${ipfsHash}`;
+    return convertedUrl;
   }
   return (
     <div>
@@ -66,6 +72,12 @@ export default function Asset(props: any) {
       </div>
       <div className="grid grid-cols-4 gap-4 justify-items-center mt-3.5 mx-3">
       {nfts.map((nft, index) => {
+        if (nft.startsWith("ipfs://")) {
+          const nftUrl = convertToHttpsIpfsUrl(nft);
+          return (
+            <NFT imageURL={nftUrl} key={index}/>  
+          )
+        }
         return (
           <NFT imageURL={nft} key={index}/>
         )

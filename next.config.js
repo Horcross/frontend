@@ -10,7 +10,7 @@ const nextConfig = {
     experimental: {
         appDir: false,
     },
-    basePath: isProd ? '/easyeigen' : '',
+    basePath: isProd ? '/frontend' : '',
     assetPrefix: './',
     webpack: function (config, options) {
         if (!options.isServer) {
