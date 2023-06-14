@@ -1,7 +1,8 @@
 import { ConnectKitButton } from "connectkit"
-import { useNetwork } from "wagmi"
+import { useRouter } from "next/router"
 
 export default function Navbar() {
+  const router = useRouter()
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -22,7 +23,7 @@ export default function Navbar() {
           </ul>
         </div>
         <img src="fox.png" className="object-cover h-20 w-20 ml-10" alt="logo"/>
-        <a className="btn btn-ghost normal-case text-2xl">Horcross</a>
+        <a className="btn btn-ghost normal-case text-2xl" onClick={()=>router.push('/')}>Horcross</a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">

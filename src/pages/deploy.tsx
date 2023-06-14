@@ -3,13 +3,19 @@ import BigNFT from "../components/bigNFT"
 
 export default function Page(props: any) {
   const router = useRouter()
+  const openseaURL = "https://opensea.io/assets/goerli/" + router.query.contractAddress + "/" + router.query.tokenId
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="grid-cols-6 gap-x-8 py-24 sm:px-4 md:grid lg:px-0">
-        <div className="relative col-span-3 rounded-xl">
-          {/* {router.query.imageURL && typeof(router.query.imageURL) === 'string '&&<img src={router.query.imageURL} /> } */}
-          <img className="aspect-square rounded-xl object-cover cursor-pointer" src={router.query.imageURL as string} alt="111" />
-        </div>
+        
+          <div className="relative col-span-3 rounded-xl">
+            {/* {router.query.imageURL && typeof(router.query.imageURL) === 'string '&&<img src={router.query.imageURL} /> } */}
+            <a href={openseaURL}>
+            <img className="aspect-square rounded-xl object-cover cursor-pointer" src={router.query.imageURL as string} alt="111" />
+            </a>
+            
+          </div>
+        
         <div className="col-span-3 rounded-xl bg-white p-6">
           <div className="flex items-center justify-between">
             <div className="flex">
