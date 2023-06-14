@@ -6,7 +6,7 @@ export default function Navbar() {
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
-        <div className="dropdown">
+        {/* <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
           </label>
@@ -21,12 +21,12 @@ export default function Navbar() {
             </li>
             <li><a>Item 3</a></li>
           </ul>
-        </div>
+        </div> */}
         <img src="fox.png" className="object-cover h-20 w-20 ml-10" alt="logo"/>
         <a className="btn btn-ghost normal-case text-2xl" onClick={()=>router.push('/')}>Horcross</a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+        {/* <ul className="menu menu-horizontal px-1">
           <li><a>Github</a></li>
           <li tabIndex={0}>
             <details>
@@ -38,10 +38,12 @@ export default function Navbar() {
             </details>
           </li>
           <li><a>Address</a></li>
-        </ul>
+        </ul> */}
       </div>
       <div className="navbar-end mr-5">
-        <ConnectKitButton />
+        <div>
+          <ConnectKitButton />
+        </div>
       </div>
     </div>
   )

@@ -14,7 +14,7 @@ export default function NFT(props: any) {
   }
   return (
     <div className="col-span-1 mx-5 mt-4 mb-8" onClick={handleClick}>
-      <div className="relative rounded-xl transition duration-500 hover:scale-105">
+      <div className="relative rounded-xl transition duration-430 hover:scale-105">
         <img className="aspect-square rounded-xl object-cover" src={ props.imageURL } alt="image description"/>
         <div className="absolute left-0 top-0 flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-xl bg-white/50 opacity-0 backdrop-blur-sm transition hover:opacity-100">
           <BiIdCard className="text-black rounded-xl w-10 h-auto"/>
