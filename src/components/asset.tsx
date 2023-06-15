@@ -12,7 +12,8 @@ export default function Asset(props: any) {
   const [nfts , setNfts] = useState([{
     contractAddress: "",
     tokenId: "",
-    imageURL: ""
+    imageURL: "",
+    name: "",
   }])
 
   useEffect(() => {
@@ -67,11 +68,12 @@ export default function Asset(props: any) {
         nft.contract.address,
         nft.tokenId
       );
-      if (response?.rawMetadata?.image && response?.contract?.address && response?.tokenId) {
+      if (response?.rawMetadata?.image && response?.contract?.address && response?.tokenId && response?.title) {
         nfts.push({
           contractAddress: response.contract.address,
           tokenId: response.tokenId,
-          imageURL: response.rawMetadata.image
+          imageURL: response.rawMetadata.image,
+          name: response.title,
         })
       }
     }
@@ -100,11 +102,11 @@ export default function Asset(props: any) {
             if (nft.imageURL.startsWith("ipfs")) {
               const nftUrl = convertToHttpsIpfsUrl(nft.imageURL);
               return (
-                <NFT imageURL={nftUrl} key={index} contractAddress={nft.contractAddress} tokenId={nft.tokenId} />  
+                <NFT imageURL={nftUrl} key={index} contractAddress={nft.contractAddress} tokenId={nft.tokenId} name={nft.name}/>  
               )
             }
             return (
-              <NFT imageURL={nft.imageURL} key={index} contractAddress={nft.contractAddress} tokenId={nft.tokenId} />
+              <NFT imageURL={nft.imageURL} key={index} contractAddress={nft.contractAddress} tokenId={nft.tokenId} name={nft.name}/>
             )
           })}
         </div>

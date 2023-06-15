@@ -43,12 +43,18 @@ export default function Page(props: any) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="grid-cols-6 gap-x-8 py-24 sm:px-4 md:grid lg:px-0">
+      <div className="grid-cols-6 gap-x-8 pt-24 pb-12 sm:px-4 md:grid lg:px-0">
         <div className="relative col-span-3 rounded-xl">
           {/* {router.query.imageURL && typeof(router.query.imageURL) === 'string '&&<img src={router.query.imageURL} /> } */}
           <div className="overflow-hidden rounded-xl">
             <a href={openseaURL} target="_blank" rel="noreferrer">
               <img className="hover:scale-105 transition-all duration-500 aspect-square rounded-xl object-cover cursor-pointer" src={router.query.imageURL as string} alt="111" />
+            </a>
+          </div>
+          <div className="flex flex-row items-center justify-between mt-8">
+            <span className="mr-4 text-2xl font-bold tracking-wide">{router.query.name}</span>
+            <a href={openseaURL} target="_blank" rel="noreferrer">
+              <img src="/opensea.svg" className="mb-2 h-9 w-9"/>
             </a>
           </div>
         </div>

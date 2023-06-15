@@ -9,6 +9,7 @@ export default function NFT(props: any) {
         contractAddress: props.contractAddress,
         tokenId: props.tokenId,
         imageURL: props.imageURL,
+        name: props.name,
       }
     });
   }
