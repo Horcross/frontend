@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNetwork } from "wagmi";
 import NFT from "./nft";
 import Loading from "./loading";
+import MintButton from "./mintButton";
 
 export default function Asset(props: any) {
   // Optional Config object, but defaults to demo api-key and eth-mainnet.
@@ -26,6 +27,13 @@ export default function Asset(props: any) {
       const settings = {
         apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Alchemy API Key.
         network: Network.ETH_MAINNET, // network.
+      };
+      return settings;
+    }
+    else if (chain?.name === "Polygon Mumbai") {
+      const settings = {
+        apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Alchemy API Key.
+        network: Network.MATIC_MUMBAI, // network.
       };
       return settings;
     }
@@ -80,7 +88,10 @@ export default function Asset(props: any) {
     <div>
       {loading ? <Loading /> : (
         <div className="mb-8">
-        <h1 className="text-4xl font-bold text-center mt-10">My NFTs</h1>
+        <div className="flex justify-center">
+          <h1 className="text-4xl font-bold text-center mt-10 ml-20">My NFTs</h1>
+          <MintButton/>
+        </div>
         <div className="flex justify-center">
           <div className="divider w-1/2"></div>
         </div>

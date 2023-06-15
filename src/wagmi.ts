@@ -26,6 +26,7 @@ export const makeChain = (name: string, rpc: string, id: number) => {
 }
 const defaultChains: Chain[] = [
   mainnet,
+  polygonMumbai,
   goerli,
   sepolia,
   gnosisChiado,
