@@ -1,7 +1,32 @@
-import { useContractRead, useContractWrite, usePrepareContractWrite } from "wagmi"
+import { useContractRead, useContractWrite, usePrepareContractWrite, useContractEvent } from "wagmi"
+import { Network, Alchemy } from "alchemy-sdk";
 import ABI from "../contract-abi/Mumbai.json"
+import Loading from "./loading";
+import { useEffect, useState } from "react";
 
 export default function DeployButton(props: any) {
+
+  const apiConfig = {
+    apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Replace with your API key
+    network: Network.MATIC_MUMBAI, // Replace with your network
+  };
+  const alchemy = new Alchemy(apiConfig);
+  
+  const [deployed, setDeployed] = useState(false)
+  useEffect(() => {
+    isDeployed()
+  })
+
+  async function isDeployed() {
+    let response = await alchemy.core.getCode(data as string);
+    if (response === "0x") {
+      setDeployed(false)
+    }
+    else {
+      setDeployed(true)
+    }
+  }
+
   const { config } = usePrepareContractWrite({
     address: "0xed8C508FbC6bD8bE3dC56fd638acbd9489CCf3e0",
     abi: ABI,
@@ -37,10 +62,6 @@ export default function DeployButton(props: any) {
     if (typeof data !== "string") return "input is not string"
     return data.slice(0, 6) + "..." + data.slice(data.length - 4, data.length)
   }
-  function polyScanURL(data: string) {
-    if (typeof data !== "string") return "input is not string"
-    return "https://mumbai.polygonscan.com/address/"+data
-  }
 
   return (
     <div className="flex items-center justify-between">
@@ -53,10 +74,18 @@ export default function DeployButton(props: any) {
         </div>
       </a>
       <div className="flex">
-        <button  onClick={()=>{ write?.() 
-        console.log(data)}} className="hidden rounded-lg bg-gradient-to-r from-[#6C55F9] to-[#9D55F9] px-4 py-2 font-hl text-white transition hover:scale-105 hover:hue-rotate-15 lg:block">
-          Deploy Account
+        {deployed ? (
+          <button  onClick={()=>{ write?.() }} className="hidden rounded-lg bg-gradient-to-r from-[#6C55F9] to-[#9D55F9] px-4 py-2 font-hl text-white transition hover:scale-105 hover:hue-rotate-15 lg:block">
+            use Account
         </button>
+        ) : (
+          <button  onClick={()=>{ write?.() }} className="hidden rounded-lg bg-gradient-to-r from-[#6C55F9] to-[#9D55F9] px-4 py-2 font-hl text-white transition hover:scale-105 hover:hue-rotate-15 lg:block">
+            Deploy Account
+          </button>
+        )}
+        {/* <button  onClick={()=>{ write?.() }} className="hidden rounded-lg bg-gradient-to-r from-[#6C55F9] to-[#9D55F9] px-4 py-2 font-hl text-white transition hover:scale-105 hover:hue-rotate-15 lg:block">
+          Deploy Account
+        </button> */}
       </div>
     </div>
   )

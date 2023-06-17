@@ -12,7 +12,7 @@ export default function DeployNFT(props: any) {
           <span className="mr-4 text-2xl font-bold tracking-wide">{props.name}</span>
         </a>
         <a href={props.openseaURL} target="_blank" rel="noreferrer">
-          <img src="/opensea.svg" className="mb-2 h-9 w-9"/>
+          <img src="opensea.svg" className="mb-2 h-9 w-9"/>
         </a>
       </div>
     </div>
