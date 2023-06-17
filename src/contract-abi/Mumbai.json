@@ -1,0 +1,208 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "address payable",
+        "name": "gatewayAddress",
+        "type": "address"
+      },
+      { "internalType": "string", "name": "feePayerAddress", "type": "string" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  { "inputs": [], "name": "InitializationFailed", "type": "error" },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "implementation",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "chainId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "tokenContract",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "salt",
+        "type": "uint256"
+      }
+    ],
+    "name": "AccountCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "requestAddress",
+        "type": "address"
+      }
+    ],
+    "name": "ReceivedData",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "address[2]", "name": "impl", "type": "address[2]" },
+      { "internalType": "uint256[3]", "name": "data", "type": "uint256[3]" },
+      { "internalType": "bytes", "name": "bytecodeHash", "type": "bytes" }
+    ],
+    "name": "abiPacketAccount",
+    "outputs": [{ "internalType": "bytes", "name": "packet", "type": "bytes" }],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "implementation",
+        "type": "address"
+      },
+      { "internalType": "uint256", "name": "chainId", "type": "uint256" },
+      { "internalType": "address", "name": "tokenContract", "type": "address" },
+      { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
+      { "internalType": "uint256", "name": "salt", "type": "uint256" }
+    ],
+    "name": "account",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "acountCount",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "implementation",
+        "type": "address"
+      },
+      { "internalType": "uint256", "name": "chainId", "type": "uint256" },
+      { "internalType": "address", "name": "tokenContract", "type": "address" },
+      { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
+      { "internalType": "uint256", "name": "salt", "type": "uint256" },
+      { "internalType": "bytes", "name": "initData", "type": "bytes" }
+    ],
+    "name": "createAccount",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "gatewayContract",
+    "outputs": [
+      { "internalType": "contract IGateway", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint64", "name": "destGasLimit", "type": "uint64" },
+      { "internalType": "uint64", "name": "destGasPrice", "type": "uint64" },
+      { "internalType": "uint64", "name": "ackGasLimit", "type": "uint64" },
+      { "internalType": "uint64", "name": "ackGasPrice", "type": "uint64" },
+      { "internalType": "uint128", "name": "relayerFees", "type": "uint128" },
+      { "internalType": "uint8", "name": "ackType", "type": "uint8" },
+      { "internalType": "bool", "name": "isReadCall", "type": "bool" },
+      { "internalType": "bytes", "name": "asmAddress", "type": "bytes" }
+    ],
+    "name": "getRequestMetadata",
+    "outputs": [{ "internalType": "bytes", "name": "", "type": "bytes" }],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "", "type": "uint256" },
+      { "internalType": "bool", "name": "", "type": "bool" },
+      { "internalType": "bytes", "name": "execData", "type": "bytes" }
+    ],
+    "name": "iAck",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "requestAddress",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "destChainId", "type": "string" },
+      {
+        "internalType": "string",
+        "name": "destinationContractAddress",
+        "type": "string"
+      },
+      { "internalType": "bytes", "name": "requestMetadata", "type": "bytes" },
+      { "internalType": "bytes", "name": "packet", "type": "bytes" }
+    ],
+    "name": "sendReadRequest",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "feePayerAddress", "type": "string" }
+    ],
+    "name": "setDappMetadata",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "gateway", "type": "address" }
+    ],
+    "name": "setGateway",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

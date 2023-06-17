@@ -5,9 +5,6 @@ import DeployButton from "../components/deployButton"
 export default function Page(props: any) {
   const router = useRouter()
   const openseaURL = "https://testnets.opensea.io/assets/mumbai/" + router.query.contractAddress + "/" + router.query.tokenId
-  function shortAddress(data: string) {
-    return data.slice(0, 6) + "..." + data.slice(data.length - 4, data.length)
-  }
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

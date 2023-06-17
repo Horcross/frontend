@@ -1,7 +1,7 @@
 import { getDefaultClient } from 'connectkit'
 import { Chain, configureChains, createClient, sepolia, mainnet } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
-import { goerli, polygonMumbai, celoAlfajores, gnosisChiado } from 'wagmi/chains'
+import { goerli, polygonMumbai } from 'wagmi/chains'
 
 export const makeChain = (name: string, rpc: string, id: number) => {
   return {
@@ -25,11 +25,10 @@ export const makeChain = (name: string, rpc: string, id: number) => {
   }
 }
 const defaultChains: Chain[] = [
-  mainnet,
   polygonMumbai,
+  mainnet,
   goerli,
   sepolia,
-  gnosisChiado,
   // makeChain('Evmos', 'https://eth.bd.evmos.org:8545', 9001),
   // makeChain('Evmos Testnet', 'https://eth.bd.evmos.dev:8545', 9000),
 ];
