@@ -2,7 +2,7 @@ import { useRouter } from "next/router"
 import DeployNFT from "../components/deployNFT"
 import DeployButton from "../components/deployButton"
 
-export default function Page(props: any) {
+export default function Page() {
   const router = useRouter()
   const openseaURL = "https://testnets.opensea.io/assets/mumbai/" + router.query.contractAddress + "/" + router.query.tokenId
 

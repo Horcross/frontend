@@ -5,8 +5,9 @@ import Nfts from "../components/nfts";
 import Loading from "../components/loading";
 import MintButton from "../components/mintButton";
 import { useRouter } from "next/router";
+import { getNFTs } from "../service/NFTapi";
 
-export default function Asset() {
+export default function Page() {
   const router = useRouter()
   const { chain } = useNetwork()
   const [loading, setLoading] = useState(true);
@@ -17,13 +18,6 @@ export default function Asset() {
     imageURL: "",
     name: "",
   }])
-
-  useEffect(() => {
-    setLoading(true);
-    getNFTs(address as string).then(() => {
-      setLoading(false);
-    })
-  },[chain?.name])
 
   function chooseNetwork() {
     if (chain?.name === "Ethereum") {
@@ -55,34 +49,20 @@ export default function Asset() {
       return settings;
     }
   }
-
   const settings = chooseNetwork();
   const alchemy = new Alchemy(settings);
 
-  async function getNFTs(address: string) {
-    const nftsForOwner = await alchemy.nft.getNftsForOwner(address);
-    const nfts = [];
+  useEffect(() => {
+    setLoading(true);
+    getNFTs(address as string, alchemy).then((data) => {
+      setNfts(data)
+      setLoading(false);
+    })
+  },[chain?.name])
 
-    // Print contract address and tokenId for each NFT:
-    for (const nft of nftsForOwner.ownedNfts) {
-      const response = await alchemy.nft.getNftMetadata(
-        nft.contract.address,
-        nft.tokenId
-      );
-      if (response?.rawMetadata?.image && response?.contract?.address && response?.tokenId && response?.title) {
-        nfts.push({
-          contractAddress: response.contract.address,
-          tokenId: response.tokenId,
-          imageURL: response.rawMetadata.image,
-          name: response.title,
-        })
-      }
-    }
-    setNfts(nfts);
-  }
-  if (!isConnected) {
-    router.push('/')
-  }
+  // if (!isConnected) {
+  //   router.push('/')
+  // }
 
   return (
     <div>
