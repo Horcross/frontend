@@ -1,7 +1,6 @@
 import { useContractRead, useContractWrite, usePrepareContractWrite, useContractEvent } from "wagmi"
 import { Network, Alchemy } from "alchemy-sdk";
 import ABI from "../contract-abi/Mumbai.json"
-import Loading from "./loading";
 import { useEffect, useState } from "react";
 
 export default function DeployButton(props: any) {
@@ -59,7 +58,7 @@ export default function DeployButton(props: any) {
   })
 
   function shortAddress(data: string) {
-    if (typeof data !== "string") return "input is not string"
+    if (typeof data !== "string") return " "
     return data.slice(0, 6) + "..." + data.slice(data.length - 4, data.length)
   }
 

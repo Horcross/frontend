@@ -1,14 +1,16 @@
 import { Network, Alchemy } from "alchemy-sdk";
 import { useEffect, useState } from "react";
-import { useNetwork } from "wagmi";
-import NFT from "./nft";
-import Loading from "./loading";
-import MintButton from "./mintButton";
+import { useAccount, useNetwork } from "wagmi";
+import Nfts from "../components/nfts";
+import Loading from "../components/loading";
+import MintButton from "../components/mintButton";
+import { useRouter } from "next/router";
 
-export default function Asset(props: any) {
-  // Optional Config object, but defaults to demo api-key and eth-mainnet.
+export default function Asset() {
+  const router = useRouter()
   const { chain } = useNetwork()
   const [loading, setLoading] = useState(true);
+  const { isConnected, address } = useAccount();
   const [nfts , setNfts] = useState([{
     contractAddress: "",
     tokenId: "",
@@ -18,7 +20,7 @@ export default function Asset(props: any) {
 
   useEffect(() => {
     setLoading(true);
-    getNFTs().then(() => {
+    getNFTs(address as string).then(() => {
       setLoading(false);
     })
   },[chain?.name])
@@ -56,10 +58,9 @@ export default function Asset(props: any) {
 
   const settings = chooseNetwork();
   const alchemy = new Alchemy(settings);
-  const ownerAddr = props.ownerAddr;
 
-  async function getNFTs() {
-    const nftsForOwner = await alchemy.nft.getNftsForOwner(ownerAddr);
+  async function getNFTs(address: string) {
+    const nftsForOwner = await alchemy.nft.getNftsForOwner(address);
     const nfts = [];
 
     // Print contract address and tokenId for each NFT:
@@ -79,17 +80,14 @@ export default function Asset(props: any) {
     }
     setNfts(nfts);
   }
-
-  function convertToHttpsIpfsUrl(ipfsUrl: string): string {
-    const ipfsHash = ipfsUrl.replace("ipfs://", "");
-    const convertedUrl = `https://ipfs.io/ipfs/${ipfsHash}`;
-    return convertedUrl;
+  if (!isConnected) {
+    router.push('/')
   }
 
   return (
     <div>
       {loading ? <Loading /> : (
-        <div className="mb-8">
+      <div className="mb-8">
         <div className="flex justify-center">
           <h1 className="text-4xl font-bold text-center mt-10 ml-20">My NFTs</h1>
           <MintButton/>
@@ -97,19 +95,7 @@ export default function Asset(props: any) {
         <div className="flex justify-center">
           <div className="divider w-1/2"></div>
         </div>
-        <div className="grid grid-cols-4 gap-4 justify-items-center mt-3.5 mx-3">
-          {nfts.map((nft, index) => {
-            if (nft.imageURL.startsWith("ipfs")) {
-              const nftUrl = convertToHttpsIpfsUrl(nft.imageURL);
-              return (
-                <NFT imageURL={nftUrl} key={index} contractAddress={nft.contractAddress} tokenId={nft.tokenId} name={nft.name}/>  
-              )
-            }
-            return (
-              <NFT imageURL={nft.imageURL} key={index} contractAddress={nft.contractAddress} tokenId={nft.tokenId} name={nft.name}/>
-            )
-          })}
-        </div>
+        <Nfts nfts={nfts} />
       </div>
       )}
     </div>
