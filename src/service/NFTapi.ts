@@ -8,7 +8,7 @@ export async function getNFTs(address: string, alchemy: any) {
       nft.contract.address,
       nft.tokenId
       );
-      if (response?.rawMetadata?.image && response?.contract?.address && response?.tokenId) {
+      if (response?.rawMetadata?.image && response?.contract?.address && response?.tokenId && response?.title) {
         nfts.push({
           contractAddress: response.contract.address,
           tokenId: response.tokenId,
