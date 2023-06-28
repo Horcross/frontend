@@ -1,38 +1,54 @@
-import { useContractRead, useContractWrite, usePrepareContractWrite, useContractEvent } from "wagmi"
-import { Network, Alchemy } from "alchemy-sdk";
+import { useContractRead, useContractWrite, usePrepareContractWrite, useContractEvent, useNetwork } from "wagmi"
+import { Network } from "alchemy-sdk";
 import ABI from "../contract-abi/Mumbai.json"
 import { useEffect, useState } from "react";
+import { detect6551 } from "../service/detect6551";
+import { ERC6551RegistryAddresses, ChainId } from "../service/contract-address";
 
 export default function DeployButton(props: any) {
-
-  const apiConfig = {
-    apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Replace with your API key
-    network: Network.MATIC_MUMBAI, // Replace with your network
-  };
-  const alchemy = new Alchemy(apiConfig);
+  const { chain } = useNetwork()
+  let apiConfig = {}
+  let scanner = ""
+  let contractAddress = ""
+  let chainId = 0
+  if (chain?.name === "Goerli") {
+    apiConfig = {
+      apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Replace with your API key
+      network: Network.ETH_GOERLI, // Replace with your network
+    };
+    contractAddress = ERC6551RegistryAddresses.Goerli
+    chainId = ChainId.Goerli
+    scanner = "https://goerli.etherscan.io/address/"
+  }
+  else if (chain?.name === "Polygon Mumbai") {
+    apiConfig = {
+      apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Replace with your API key
+      network: Network.MATIC_MUMBAI, // Replace with your network
+    };
+    contractAddress = ERC6551RegistryAddresses.Mumbai
+    chainId = ChainId.Mumbai
+    scanner = "https://mumbai.polygonscan.com/address/"
+  }
   
   const [deployed, setDeployed] = useState(false)
   useEffect(() => {
-    isDeployed()
+    detect6551(apiConfig, data as string).then((res) => {
+      if (res === "0x") {
+        setDeployed(false)
+      }
+      else {
+        setDeployed(true)
+      }
+    })
   })
 
-  async function isDeployed() {
-    let response = await alchemy.core.getCode(data as string);
-    if (response === "0x") {
-      setDeployed(false)
-    }
-    else {
-      setDeployed(true)
-    }
-  }
-
   const { config } = usePrepareContractWrite({
-    address: "0xed8C508FbC6bD8bE3dC56fd638acbd9489CCf3e0",
+    address: contractAddress as `0x${string}`,
     abi: ABI,
-    chainId: 80001,
+    chainId: chainId,
     functionName: 'createAccount(address,uint256,address,uint256,uint256,bytes)',
     args: [
-      '0xed8C508FbC6bD8bE3dC56fd638acbd9489CCf3e0',
+      contractAddress,
       80001,
       props.contractAddress,
       Number(props.tokenId),
@@ -44,12 +60,12 @@ export default function DeployButton(props: any) {
   const { write } = useContractWrite(config)
 
   let { data } = useContractRead({
-    address: "0xed8C508FbC6bD8bE3dC56fd638acbd9489CCf3e0",
+    address: contractAddress as `0x${string}`,
     abi: ABI,
-    chainId: 80001,
+    chainId: chainId,
     functionName: 'account(address,uint256,address,uint256,uint256)',
     args: [
-      '0xed8C508FbC6bD8bE3dC56fd638acbd9489CCf3e0',
+      contractAddress,
       80001,
       props.contractAddress,
       Number(props.tokenId),
@@ -64,7 +80,7 @@ export default function DeployButton(props: any) {
 
   return (
     <div className="flex items-center justify-between">
-      <a href={"https://mumbai.polygonscan.com/address/"+data} target="_blank" rel="noreferrer">
+      <a href={ scanner + data } target="_blank" rel="noreferrer">
         <div className="flex cursor-pointer items-center gap-2 rounded-full bg-[#f2f2f2] p-1 px-2 text-[#8e8e8e] transition hover:scale-105 hover:bg-black/10">
           <span className="text-xs font-bold tracking-wide lg:text-base">{shortAddress(data as string)}</span>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" className="h-5 w-5">
@@ -74,7 +90,7 @@ export default function DeployButton(props: any) {
       </a>
       <div className="flex">
         {deployed ? (
-          <button  onClick={()=>{ write?.() }} className="hidden rounded-lg bg-gradient-to-r from-[#6C55F9] to-[#9D55F9] px-4 py-2 font-hl text-white transition hover:scale-105 hover:hue-rotate-15 lg:block">
+          <button className="hidden rounded-lg bg-gradient-to-r from-[#6C55F9] to-[#9D55F9] px-4 py-2 font-hl text-white transition hover:scale-105 hover:hue-rotate-15 lg:block">
             use Account
         </button>
         ) : (

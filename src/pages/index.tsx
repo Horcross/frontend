@@ -1,6 +1,5 @@
 import { useAccount } from "wagmi";
 import { useRouter } from "next/router"
-import Asset from "./asset";
 import Alert from "../components/alert";
 
 function Page() {
@@ -10,7 +9,7 @@ function Page() {
     router.push('/asset')
   }
   else {
-    return <div>{!isConnected && <Alert />}</div>;
+    return <div></div>;
   }
   // return <div>{isConnected ? <Asset ownerAddr={address} /> : <Alert />}</div>;
 }

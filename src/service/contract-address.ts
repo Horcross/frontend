@@ -1,24 +1,14 @@
-export const stEvmosAddresses = {
-  "Alfajores": "",
-  "Gnosis Chiado": "",
-  "Goerli": "",
-  "hardhat": "",
-  "Mantle Testnet": "",
-  "Polygon Mumbai": "",
-  "Scroll Alpha": "",
-  "Sepolia": "",
-  "Evmos Testnet": "0x42C5d61A1bCafeD5150c58d6274F6244E23441a9",
+export const ERC721Addresses = {
+  Mumbai: "0xca3Ccd71b2A2f8A37D2e746a829496053B937721",
+  Goerli: "0x7BFc0b2a0bF455f0D40831274Dec5487A814d243"
 }
 
-export const registerRelayerAddresses = {
-  "Alfajores": "",
-  "Gnosis Chiado": "",
-  "Goerli": "",
-  "hardhat": "",
-  "Mantle Testnet": "",
-  "Polygon Mumbai": "",
-  "Scroll Alpha": "",
-  "Sepolia": "",
-  "Evmos Testnet": "0xE8104407214415e5775e3643CAb2579b80712472",
+export const ChainId = {
+  Mumbai: 80001,
+  Goerli: 5
+}
 
+export const ERC6551RegistryAddresses = {
+  Mumbai: "0xed8C508FbC6bD8bE3dC56fd638acbd9489CCf3e0",
+  Goerli: "0xB04a3ab6b57e859B6FA4255F52f07f4c7453A861"
 }

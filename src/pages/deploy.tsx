@@ -1,10 +1,18 @@
 import { useRouter } from "next/router"
+import { useNetwork } from "wagmi"
 import DeployNFT from "../components/deployNFT"
 import DeployButton from "../components/deployButton"
 
 export default function Page() {
+  const { chain } = useNetwork()
   const router = useRouter()
-  const openseaURL = "https://testnets.opensea.io/assets/mumbai/" + router.query.contractAddress + "/" + router.query.tokenId
+  let openseaURL = ""
+  if (chain?.name === "Goerli") {
+    openseaURL = "https://testnets.opensea.io/assets/goerli/" + router.query.contractAddress + "/" + router.query.tokenId 
+  }
+  else if (chain?.name === "Polygon Mumbai") {
+    openseaURL = "https://testnets.opensea.io/assets/mumbai/" + router.query.contractAddress + "/" + router.query.tokenId
+  }
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

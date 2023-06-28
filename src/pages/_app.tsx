@@ -14,8 +14,8 @@ function App({Component, pageProps}: AppProps) {
       <WagmiConfig client={client}>
         <ConnectKitProvider>
           <NextHead>
-            <title>Hrocross</title>
-            <link rel="icon" href="/favicon.ico" />
+            <title>Horcross</title>
+            <link rel="icon" href="./favicon.ico" />
           </NextHead>
           <div className='min-h-screen flex flex-col'>
             <Navbar />

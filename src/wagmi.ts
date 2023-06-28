@@ -25,9 +25,9 @@ export const makeChain = (name: string, rpc: string, id: number) => {
   }
 }
 const defaultChains: Chain[] = [
+  goerli,
   polygonMumbai,
   mainnet,
-  goerli,
   sepolia,
   // makeChain('Evmos', 'https://eth.bd.evmos.org:8545', 9001),
   // makeChain('Evmos Testnet', 'https://eth.bd.evmos.dev:8545', 9000),
