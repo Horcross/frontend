@@ -4,14 +4,12 @@ import { useAccount, useNetwork } from "wagmi";
 import Nfts from "../components/nfts";
 import Loading from "../components/loading";
 import MintButton from "../components/mintButton";
-import { useRouter } from "next/router";
 import { getNFTs } from "../service/NFTapi";
 
 export default function Page() {
-  const router = useRouter()
   const { chain } = useNetwork()
   const [loading, setLoading] = useState(true);
-  const { isConnected, address } = useAccount();
+  const { address } = useAccount();
   const [nfts , setNfts] = useState([{
     contractAddress: "",
     tokenId: "",
@@ -56,7 +54,7 @@ export default function Page() {
     setLoading(true);
     getNFTs(address as string, alchemy).then((data) => {
       setNfts(data)
-      setLoading(false);
+      setLoading(false);  
     })
   },[chain?.name])
 
