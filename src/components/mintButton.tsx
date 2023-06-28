@@ -46,7 +46,7 @@ export default function MintButton() {
         random()
         mint?.()
       }} className="mt-10 ml-5 hidden rounded-lg bg-gradient-to-r from-[#6C55F9] to-[#9D55F9] px-4 py-2 font-hl text-white transition hover:scale-105 hover:hue-rotate-15 lg:block">
-        mint
+        Mint
       </button>
     </div>
   )

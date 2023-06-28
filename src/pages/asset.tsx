@@ -5,7 +5,7 @@ import Nfts from "../components/nfts";
 import Loading from "../components/loading";
 import MintButton from "../components/mintButton";
 import { useRouter } from "next/router";
-import { getNFTs } from "../service/NFTapi";
+import { getNFTs } from "../service/getNFT";
 
 export default function Page() {
   const router = useRouter()

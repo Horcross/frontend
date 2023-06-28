@@ -1,8 +1,9 @@
-import { useContractRead, useContractWrite, usePrepareContractWrite, useContractEvent, useNetwork } from "wagmi"
+import { useContractWrite, usePrepareContractWrite, useContractEvent, useNetwork } from "wagmi"
 import { Network } from "alchemy-sdk";
 import ABI from "../contract-abi/Mumbai.json"
 import { useEffect, useState } from "react";
-import { detect6551 } from "../service/detect6551";
+import { detect6551 } from "../service/isContractAccount";
+import { read6551 } from "../service/readContractAccount";
 import { ERC6551RegistryAddresses, ChainId } from "../service/contract-address";
 
 export default function DeployButton(props: any) {
@@ -12,27 +13,24 @@ export default function DeployButton(props: any) {
   let contractAddress = ""
   let chainId = 0
   if (chain?.name === "Goerli") {
-    apiConfig = {
-      apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Replace with your API key
-      network: Network.ETH_GOERLI, // Replace with your network
-    };
     contractAddress = ERC6551RegistryAddresses.Goerli
     chainId = ChainId.Goerli
     scanner = "https://goerli.etherscan.io/address/"
   }
   else if (chain?.name === "Polygon Mumbai") {
-    apiConfig = {
-      apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Replace with your API key
-      network: Network.MATIC_MUMBAI, // Replace with your network
-    };
     contractAddress = ERC6551RegistryAddresses.Mumbai
     chainId = ChainId.Mumbai
     scanner = "https://mumbai.polygonscan.com/address/"
   }
   
   const [deployed, setDeployed] = useState(false)
+  const [data, setData] = useState("0x")
   useEffect(() => {
-    detect6551(apiConfig, data as string).then((res) => {
+    read6551(chain?.name as string, props.contractAddress, props.tokenId).then((res) => {
+      setData(res as string)
+    })
+    
+    detect6551(chain?.name as string, data as string).then((res) => {
       if (res === "0x") {
         setDeployed(false)
       }
@@ -49,7 +47,7 @@ export default function DeployButton(props: any) {
     functionName: 'createAccount(address,uint256,address,uint256,uint256,bytes)',
     args: [
       contractAddress,
-      80001,
+      chainId,
       props.contractAddress,
       Number(props.tokenId),
       10,
@@ -58,20 +56,6 @@ export default function DeployButton(props: any) {
     enabled: true
   })
   const { write } = useContractWrite(config)
-
-  let { data } = useContractRead({
-    address: contractAddress as `0x${string}`,
-    abi: ABI,
-    chainId: chainId,
-    functionName: 'account(address,uint256,address,uint256,uint256)',
-    args: [
-      contractAddress,
-      80001,
-      props.contractAddress,
-      Number(props.tokenId),
-      10,
-    ],
-  })
 
   function shortAddress(data: string) {
     if (typeof data !== "string") return " "
