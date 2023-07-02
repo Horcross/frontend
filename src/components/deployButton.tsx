@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { detect6551 } from "../service/isContractAccount";
 import { read6551 } from "../service/readContractAccount";
 import { deployContractAccount } from "../service/deployContractAccount";
+import GetAccountButton from "./getAccountButton";
 
 export default function DeployButton(props: any) {
   const { chain } = useNetwork();
@@ -58,9 +59,10 @@ export default function DeployButton(props: any) {
       </a>
       <div className="flex">
         {deployed ? (
-          <button className="hidden rounded-lg bg-gradient-to-r from-[#6C55F9] to-[#9D55F9] px-4 py-2 font-hl text-white transition hover:scale-105 hover:hue-rotate-15 lg:block">
-            use Account
-          </button>
+          // <button className="hidden rounded-lg bg-gradient-to-r from-[#6C55F9] to-[#9D55F9] px-4 py-2 font-hl text-white transition hover:scale-105 hover:hue-rotate-15 lg:block">
+          //   get Account
+          // </button>
+          <GetAccountButton nftContractAddress = {props.contractAddress} tokenId = {props.tokenId} />
         ) : (
           <button
             onClick={() => {
