@@ -2,6 +2,8 @@ import { useRouter } from "next/router"
 import { useNetwork } from "wagmi"
 import DeployNFT from "../components/deployNFT"
 import DeployButton from "../components/deployButton"
+import Divider from "../components/divider"
+import AddressBar from "../components/addressBar"
 
 export default function Page() {
   const { chain } = useNetwork()
@@ -20,15 +22,16 @@ export default function Page() {
         <DeployNFT imageURL={router.query.imageURL} name={router.query.name} openseaURL={openseaURL}/>
         <div className="col-span-3 rounded-xl bg-white p-6">
           <DeployButton contractAddress={router.query.contractAddress} tokenId={router.query.tokenId}/>
-          <div className="flex gap-x-4">
-            <p className="w-fit py-4 text-left font-mono text-xl uppercase text-gray-400 lg:whitespace-nowrap">
-              address
-            </p>
-            <div className="hidden w-full grid-cols-1 grid-rows-2 divide-y divide-[#8c8c8c]/30 lg:grid">
-              <div className="w-full"></div>
-              <div className="w-full"></div>
-            </div>
+          <Divider title= {'address'}/>
+          <div className="flex items-center mb-8">
+            <img className="mask mask-circle w-10 h-auto mr-5" src="avalanche.png" />
+            <AddressBar url= {'asdfs'} address= {'0x77813af45BC74aB209236b92CE2B6F2A51e58ee8'}/>
           </div>
+          <div className="flex items-center mb-8">
+            <img className="mask mask-circle w-10 h-auto mr-5" src="polygon.png" />
+            <AddressBar url= {'asdfs'} address= {'0x77813af45BC74aB209236b92CE2B6F2A51e58ee8'}/>
+          </div>
+          <Divider title= {'Asset'}/>
         </div>
       </div>
     </div>
