@@ -1,6 +1,6 @@
 import { writeContract, prepareWriteContract } from '@wagmi/core'
 import { ERC6551RegistryAddresses, ChainId } from './contract-address'
-import ABI from '../contract-abi/registry.json'
+import ABI from '../contract-abi/crossChain.json'
 
 export async function deployContractAccount(chainName: string, nftAddress: string, tokenId: number) {
   let chainId = 0

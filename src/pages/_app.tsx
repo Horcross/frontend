@@ -7,10 +7,18 @@ import { client } from '../wagmi'
 import { AppProps } from 'next/app'
 import Alert from '../components/alert'
 import NextHead from 'next/head'
+import { Client, Provider, cacheExchange, fetchExchange } from 'urql';
+
+const APIURL = "https://api.studio.thegraph.com/query/49227/crosschain/v0.0.1"
+const qlclient = new Client({
+  url: APIURL,
+  exchanges: [cacheExchange, fetchExchange],
+});
 
 function App({Component, pageProps}: AppProps) {
   const { isConnected } = useAccount();
   return (
+    <Provider value={qlclient}>
       <WagmiConfig client={client}>
         <ConnectKitProvider>
           <NextHead>
@@ -24,6 +32,7 @@ function App({Component, pageProps}: AppProps) {
           </div>
         </ConnectKitProvider>
       </WagmiConfig>
+    </Provider>
     )
 }
 export default App

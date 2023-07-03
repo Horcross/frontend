@@ -12,11 +12,13 @@ export default function GetAccountButton(props: any) {
       >
         <li>
           <button onClick={()=>{
-            getOtherChainAccount(props.nftContractAddress, props.tokenId)
+            getOtherChainAccount(props.nftContractAddress, props.tokenId, 'Fuji')
           }}>Fuji</button>
         </li>
         <li>
-          <a>Mumbai</a>
+        <button onClick={()=>{
+            getOtherChainAccount(props.nftContractAddress, props.tokenId, 'Polygon Mumbai')
+          }}>Mumbai</button>
         </li>
       </ul>
     </div>

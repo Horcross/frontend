@@ -2,9 +2,19 @@ import { writeContract, prepareWriteContract, readContract } from '@wagmi/core'
 import { crossChainAddress, ChainId, ERC6551RegistryAddresses } from './contract-address'
 import ABI from '../contract-abi/crossChain.json'
 
-export async function getOtherChainAccount(nftContractAddress: string, tokenId: number) {
+export async function getOtherChainAccount(nftContractAddress: string, tokenId: number, chainName: string) {
   const accountABI = await getAccountABI(nftContractAddress, tokenId)
   const metadata = await getMetadata()
+  let desChainId = 0
+  let desContractAddress = ''
+  if (chainName === 'Fuji') {
+    desChainId = ChainId.Fuji
+    desContractAddress = ERC6551RegistryAddresses.Fuji
+  }
+  else if (chainName === 'Polygon Mumbai') {
+    desChainId = ChainId.Mumbai
+    desContractAddress = ERC6551RegistryAddresses.Mumbai
+  }
 
   const config = await prepareWriteContract({
     address: crossChainAddress.Goerli as `0x${string}`,
@@ -12,8 +22,8 @@ export async function getOtherChainAccount(nftContractAddress: string, tokenId: 
     chainId: ChainId.Goerli,
     functionName: 'sendReadRequest(string,string,bytes,bytes)',
     args: [
-      ChainId.Fuji.toString(),
-      ERC6551RegistryAddresses.Fuji,
+      desChainId.toString(),
+      desContractAddress,
       metadata,
       accountABI
     ],

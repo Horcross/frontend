@@ -1,5 +1,5 @@
 import { readContract } from '@wagmi/core'
-import ABI from '../contract-abi/registry.json'
+import ABI from '../contract-abi/crossChain.json'
 import { ERC6551RegistryAddresses, ChainId } from './contract-address'
 
 export async function read6551 (chainName: string, nftAddress: string, tokenId: number) {

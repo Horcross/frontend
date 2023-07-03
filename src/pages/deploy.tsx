@@ -8,8 +8,24 @@ import AddressBar from "../components/addressBar"
 import { getNFTs } from "../service/getNFT"
 import { read6551 } from "../service/readContractAccount"
 import DeployAsset from "../components/deployAsset"
+import { gql, useQuery } from 'urql';
+const query = gql`
+  query {
+    receivedDatas(first: 5) {
+      id
+      _chainId
+      _tokenContract
+      _tokenId
+      _account
+    }
+  }
+`
 
 export default function Page() {
+  const [result, reexecuteQuery] = useQuery({
+    query: query,
+  });
+
   const [nfts , setNfts] = useState([{
     contractAddress: "",
     tokenId: "",
@@ -31,6 +47,7 @@ export default function Page() {
   useEffect(() => {
     read6551(chain?.name as string, router.query.contractAddress as string, router.query.tokenId as any)
     .then((res) => {
+      console.log(result.data)
       setData(res as string)
     })
     getNFTs(data, chain?.name as string).then((res) => {
