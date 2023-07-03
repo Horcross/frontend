@@ -1,4 +1,22 @@
-export async function getNFTs(address: string, alchemy: any) {
+import { Network, Alchemy } from "alchemy-sdk";
+
+
+export async function getNFTs(address: string, chainName: string) {
+  let settings = {};
+  if (chainName === "Polygon Mumbai") {
+    settings = {
+      apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Alchemy API Key.
+      network: Network.MATIC_MUMBAI, // network.
+    };
+  }
+  else if (chainName === "Goerli") {
+    settings = {
+      apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Alchemy API Key.
+      network: Network.ETH_GOERLI, // network.
+    };
+  }
+  const alchemy = new Alchemy(settings);
+
   const nftsForOwner = await alchemy.nft.getNftsForOwner(address);
   const nfts = [];
   

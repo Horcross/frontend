@@ -1,4 +1,3 @@
-import { Network, Alchemy } from "alchemy-sdk";
 import { useEffect, useState } from "react";
 import { useAccount, useNetwork } from "wagmi";
 import Nfts from "../components/nfts";
@@ -19,42 +18,9 @@ export default function Page() {
     name: "",
   }])
 
-  function chooseNetwork() {
-    if (chain?.name === "Ethereum") {
-      const settings = {
-        apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Alchemy API Key.
-        network: Network.ETH_MAINNET, // network.
-      };
-      return settings;
-    }
-    else if (chain?.name === "Polygon Mumbai") {
-      const settings = {
-        apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Alchemy API Key.
-        network: Network.MATIC_MUMBAI, // network.
-      };
-      return settings;
-    }
-    else if (chain?.name === "Sepolia") {
-      const settings = {
-        apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Alchemy API Key.
-        network: Network.ETH_SEPOLIA, // network.
-      };
-      return settings;
-    }
-    else if (chain?.name === "Goerli") {
-      const settings = {
-        apiKey: "eCsOnpQMtwmvGMOjQ2XKcuCCSI1rYtCc", // Alchemy API Key.
-        network: Network.ETH_GOERLI, // network.
-      };
-      return settings;
-    }
-  }
-  const settings = chooseNetwork();
-  const alchemy = new Alchemy(settings);
-
   useEffect(() => {
     setLoading(true);
-    getNFTs(address as string, alchemy).then((data) => {
+    getNFTs(address as string, chain?.name as string).then((data) => {
       setNfts(data)
       setLoading(false);
     })
