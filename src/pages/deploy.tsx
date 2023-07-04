@@ -53,7 +53,6 @@ export default function Page() {
   useEffect(() => {
     read6551(chain?.name as string, router.query.contractAddress as string, router.query.tokenId as any)
     .then((res) => {
-      console.log(result.data)
       setData(res as string)
     })
     getNFTs(data, chain?.name as string).then((res) => {
@@ -73,19 +72,19 @@ export default function Page() {
           {/* <AccountBar receivedDatas={result.data}/> */}
           {
             result.data?.receivedDatas.map((event: any, index: number)=>{
-              if (event._chainId === 43113 || event._chainId === "43113") {
+              if (event._chainId === "43113" && event._tokenContract === tokenContract && event._tokenId === tokenId) {
                 return (
                   <div className="flex items-center mb-8" key={index}>
                     <img className="mask mask-circle w-10 h-auto mr-5" src="avalanche.png" />
-                    <AddressBar url= {"asdfasdfsdf"} address= {event._account}/>
+                    <AddressBar url= {"https://testnet.snowtrace.io/address/"+event._account} address= {event._account}/>
                   </div>
                 )
               }
-              else if (event._chainId === 80001 || event._chainId === "80001") {
+              else if (event._chainId === "80001" && event._tokenContract === tokenContract && event._tokenId === tokenId) {
                 return (
                   <div className="flex items-center" key={index}>
                     <img className="mask mask-circle w-10 h-auto mr-5" src="polygon.png" />
-                    <AddressBar url= {"asdfasdfsdf"} address= {event._account}/>
+                    <AddressBar url= {'https://mumbai.polygonscan.com/address/'+event._account} address= {event._account}/>
                   </div>
                 )
               }
