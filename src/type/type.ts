@@ -6,3 +6,8 @@ export type addressBar = {
 export type divider = {
   title: string;
 }
+
+export type receivedDatasEvent = {
+  id: number,
+  
+}

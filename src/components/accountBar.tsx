@@ -1,30 +1,31 @@
 import AddressBar from "./addressBar"
-export default function AccountBar() {
-  return (
-    <div className="flex items-center">
-      <img className="mask mask-circle w-10 h-auto" src="avalanche.png" />
-      <AddressBar url= {"asdfasdfsdf"} address= {'0x00000000000'}/>
-      {/* <a target="_blank" rel="noreferrer">
-        <div className="flex cursor-pointer items-center gap-2 rounded-full bg-[#f2f2f2] p-1 px-2 text-[#8e8e8e] transition hover:scale-105 hover:bg-black/10">
-          <span className="text-xs font-bold tracking-wide lg:text-base">
-            0x000000000000000
-          </span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2.5"
-            stroke="currentColor"
-            className="h-5 w-5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-            ></path>
-          </svg>
-        </div>
-      </a> */}
+
+export default function AccountBar(props: any) {
+ 
+  return (    
+    <div>
+      {
+        props.receivedDatas.map((event: any, index: number)=>{
+          if (event._chainId === 43113 || event._chainId === "43113") {
+            return (
+              <div className="flex items-center" key={index}>
+                <img className="mask mask-circle w-10 h-auto" src="avalanche.png" />
+                <AddressBar url= {"asdfasdfsdf"} address= {event._account}/>
+              </div>
+            )
+          }
+          else if (event._chainId === 80001 || event._chainId === "80001") {
+            return (
+              <div className="flex items-center" key={index}>
+                <img className="mask mask-circle w-10 h-auto" src="polygon.png" />
+                <AddressBar url= {"asdfasdfsdf"} address= {event._account}/>
+              </div>
+            )
+          }
+          else return null
+        })
+      }
     </div>
+    
   )
 }

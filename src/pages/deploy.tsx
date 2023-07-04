@@ -4,14 +4,22 @@ import { useEffect, useState } from "react"
 import DeployNFT from "../components/deployNFT"
 import DeployButton from "../components/deployButton"
 import Divider from "../components/divider"
+import AccountBar from "../components/accountBar"
 import AddressBar from "../components/addressBar"
 import { getNFTs } from "../service/getNFT"
 import { read6551 } from "../service/readContractAccount"
 import DeployAsset from "../components/deployAsset"
 import { gql, useQuery } from 'urql';
-const query = gql`
+
+
+export default function Page() {
+  const { chain } = useNetwork()
+  const router = useRouter()
+  const tokenContract = router.query.contractAddress
+  const tokenId = router.query.tokenId
+  const TodosQuery = gql`
   query {
-    receivedDatas(first: 5) {
+    receivedDatas {
       id
       _chainId
       _tokenContract
@@ -19,11 +27,10 @@ const query = gql`
       _account
     }
   }
-`
+`;
 
-export default function Page() {
   const [result, reexecuteQuery] = useQuery({
-    query: query,
+    query: TodosQuery as any,
   });
 
   const [nfts , setNfts] = useState([{
@@ -34,8 +41,7 @@ export default function Page() {
   }])
   const [data, setData] = useState("0x");
 
-  const { chain } = useNetwork()
-  const router = useRouter()
+ 
   let openseaURL = ""
   if (chain?.name === "Goerli") {
     openseaURL = "https://testnets.opensea.io/assets/goerli/" + router.query.contractAddress + "/" + router.query.tokenId 
@@ -62,14 +68,31 @@ export default function Page() {
         <div className="col-span-3 rounded-xl bg-white p-6">
           <DeployButton contractAddress={router.query.contractAddress} tokenId={router.query.tokenId}/>
           <Divider title= {'address'}/>
-          <div className="flex items-center mb-8">
-            <img className="mask mask-circle w-10 h-auto mr-5" src="avalanche.png" />
-            <AddressBar url= {'asdfs'} address= {'0x77813af45BC74aB209236b92CE2B6F2A51e58ee8'}/>
-          </div>
-          <div className="flex items-center mb-8">
-            <img className="mask mask-circle w-10 h-auto mr-5" src="polygon.png" />
-            <AddressBar url= {'asdfs'} address= {'0x77813af45BC74aB209236b92CE2B6F2A51e58ee8'}/>
-          </div>
+
+
+          {/* <AccountBar receivedDatas={result.data}/> */}
+          {
+            result.data?.receivedDatas.map((event: any, index: number)=>{
+              if (event._chainId === 43113 || event._chainId === "43113") {
+                return (
+                  <div className="flex items-center mb-8" key={index}>
+                    <img className="mask mask-circle w-10 h-auto mr-5" src="avalanche.png" />
+                    <AddressBar url= {"asdfasdfsdf"} address= {event._account}/>
+                  </div>
+                )
+              }
+              else if (event._chainId === 80001 || event._chainId === "80001") {
+                return (
+                  <div className="flex items-center" key={index}>
+                    <img className="mask mask-circle w-10 h-auto mr-5" src="polygon.png" />
+                    <AddressBar url= {"asdfasdfsdf"} address= {event._account}/>
+                  </div>
+                )
+              }
+              else return null
+            })
+          }
+
           <Divider title= {'Asset'}/>
           <DeployAsset nfts= {nfts}/>
         </div>
